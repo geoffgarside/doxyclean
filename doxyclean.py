@@ -1071,9 +1071,10 @@ def linkify(directory, shouldEstablishIPhoneLinks):
 					continue
 				
 				refName = refNode.childNodes[0].nodeValue
-				formatString = documentedTargets[refName]
-				refTarget = formatString.format(name=refName)
-				refNode.setAttribute("id", refTarget)
+				if refName in documentedTargets:
+					formatString = documentedTargets[refName]
+					refTarget = formatString.format(name=refName)
+					refNode.setAttribute("id", refTarget)
 	
 			# Write the xml file
 			f = open(filePath, "w")			
