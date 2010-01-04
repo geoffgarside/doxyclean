@@ -1075,6 +1075,8 @@ def linkify(directory, shouldEstablishIPhoneLinks):
 					formatString = documentedTargets[refName]
 					refTarget = formatString.format(name=refName)
 					refNode.setAttribute("id", refTarget)
+				elif verbose:
+					print "Error locating documentedTarget %s" % refName
 	
 			# Write the xml file
 			f = open(filePath, "w")			
