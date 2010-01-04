@@ -137,7 +137,16 @@
 	
 	<xsl:template match="compounddef">
 		<object>
-			<xsl:attribute name="kind"><xsl:value-of select="@kind"/></xsl:attribute>
+			<xsl:attribute name="kind">
+				<xsl:choose>
+					<xsl:when test="contains(compoundname,'(')">
+						<xsl:text>category</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="@kind"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 			<name>
 				<xsl:apply-templates select="compoundname"/>
 			</name>
