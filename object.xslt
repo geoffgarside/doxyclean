@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:output method="xml" indent="yes"/>
+	<xsl:output method="xml" indent="no"/>
 	<xsl:strip-space elements="*"/>
 	<xsl:template match="/">
 		<xsl:apply-templates select="doxygen/compounddef"/>
@@ -380,6 +380,27 @@
 				<xsl:apply-templates select="../../node[@id=$nodeID]" mode="protocol"/>
 			</protocol>
 		</xsl:if>
+	</xsl:template>
+
+	<!-- Copy most of programlisting through -->
+	<xsl:template match="programlisting">
+	  <codeblock>
+	    <xsl:apply-templates />
+	  </codeblock>
+	</xsl:template>
+	
+	<xsl:template match="programlisting/codeline">
+		<xsl:apply-templates /><xsl:text>
+</xsl:text>
+	</xsl:template>
+	
+	<xsl:template match="programlisting//sp">
+		<xsl:text> </xsl:text>
+	</xsl:template>
+
+	<!-- Copy through other children of programlisting -->
+	<xsl:template match="programlisting//*">
+	    <xsl:apply-templates />
 	</xsl:template>
 	
 </xsl:stylesheet>

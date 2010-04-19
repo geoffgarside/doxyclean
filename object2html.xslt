@@ -375,9 +375,8 @@
 						<xsl:text> </xsl:text><span class="specialType">required</span>
 					</xsl:when>
 				</xsl:choose>
-				
-				<span class="tooltip"><xsl:value-of select="description/brief"/></span>
 			</span>
+			<span class="tooltip"><xsl:value-of select="description/brief"/></span>
 		</li>
 	</xsl:template>
 	
@@ -440,6 +439,21 @@
 		<span class="parameter">
 			<xsl:apply-templates/>
 		</span>
+	</xsl:template>
+	
+	<!-- Don't put the <code> tag for links inside a prototype -->
+	<xsl:template match="prototype//ref">
+		<xsl:choose>
+			<xsl:when test="/object/name != child::node()[1]">
+				<a>
+					<xsl:attribute name="href"><xsl:value-of select="@id"/>.html</xsl:attribute>
+					<xsl:apply-templates/>
+				</a>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<xsl:template match="parameters">
@@ -537,5 +551,29 @@
 			</xsl:choose>
 		</code>
 	</xsl:template>
+
+	<!-- Block for a codeblock -->
+	<xsl:template match="codeblock">
+	  <code>
+		<pre>
+	    	<xsl:apply-templates />
+		</pre>
+	  </code>
+	</xsl:template>
 	
+	<!-- Don't put the <code> tag for links inside a codeblock -->
+	<xsl:template match="codeblock//ref">
+		<xsl:choose>
+			<xsl:when test="/object/name != child::node()[1]">
+				<a>
+					<xsl:attribute name="href"><xsl:value-of select="@id"/>.html</xsl:attribute>
+					<xsl:apply-templates/>
+				</a>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
 </xsl:stylesheet>
